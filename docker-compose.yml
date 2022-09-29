@@ -1,0 +1,8 @@
+version: '3.3'
+
+services:
+  task4:
+    build:
+      context: .
+      dockerfile: Task4/Dockerfile
+    image: taskfour:latest

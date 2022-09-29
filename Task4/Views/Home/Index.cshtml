@@ -1,0 +1,46 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using Task4.Areas.Identity.Data.Models
+@model IEnumerable<User>
+@{
+   ViewData["Title"] = "Home Page";
+}
+@if (User.Identity.IsAuthenticated) {
+
+    if(Model.Any()) {
+        <div class="text-center">
+            <h1 class="display-4">Users</h1>
+        </div>
+        <form>
+            <button method="post" asp-controller="User" asp-action="Block" type="submit" class="btn btn-warning">Block</button>
+             <button  method="post" asp-controller="User" asp-action="Unblock" type="submit" class="btn btn-success">Unblock</button>
+            <button method="post" asp-controller="User" asp-action="Delete" type="submit" class="btn btn-danger">Delete</button><br />
+            <input type="checkbox" onClick="toggle(this)" />Select all
+        @foreach (var user in Model)
+        {
+                <div class="card">
+                    <div class="card-header">
+                        <input id="@user.Id" type="checkbox" name="id" value="@user.Id"/> @user.UserName</div>
+                    <div class="card-body">
+                        Registration time: @user.RegistrationTime<br/>
+                        Last login time: @user.LoginTime
+                    </div>
+                    <div class="card-footer">
+                        Block status: @user.LockoutEnabled
+                    </div>
+                </div>
+        }
+        </form>
+    }
+    else {
+        <h2>No users found!</h2>
+    }
+}
+
+<script type="text/javascript">
+    function toggle(source) {
+        checkboxes = document.getElementsByName('id');
+        for (var i = 0, n = checkboxes.length; i < n; i++) {
+            checkboxes[i].checked = source.checked;
+        }
+    }
+</script>
